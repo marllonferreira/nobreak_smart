@@ -314,3 +314,10 @@ entities:
 ```
 
 Esse painel agrupa todas as medições de entrada (AC), bateria (DC) e sensores ambientais de forma nativa e segura, sem que você precise digitar uma única linha de código no núcleo do Home Assistant!
+
+---
+
+### 🧭 Navegação do Projeto
+- 🏠 [Página Inicial (Visão Geral)](README.md)
+- 📝 [Checklist e Passo a Passo](CHECKLIST.md)
+- 🛠️ [Guia de Montagem e Configuração](MONTAGEM_E_CONFIGURACAO.md)

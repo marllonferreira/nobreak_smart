@@ -55,3 +55,10 @@ Ele será estruturado e detalhado conforme formos alinhando cada parte do projet
 
 ---
 *Nota: Este é o esqueleto inicial do checklist. Cada etapa será expandida e receberá novas sub-tarefas assim que alinharmos as especificidades técnicas.*
+
+---
+
+### 🧭 Navegação do Projeto
+- 🏠 [Página Inicial (Visão Geral)](README.md)
+- 📝 [Checklist e Passo a Passo](CHECKLIST.md)
+- 🛠️ [Guia de Montagem e Configuração](MONTAGEM_E_CONFIGURACAO.md)
