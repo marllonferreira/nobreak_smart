@@ -4,16 +4,16 @@ Bem-vindo à documentação oficial do projeto **Nobreak Smart**.
 O objetivo deste projeto é documentar e executar a transformação de um nobreak comum em um dispositivo inteligente (smart), com foco em **monitoramento passivo** avançado e integração com automações residenciais/locais. Não haverá controle invasivo da placa (botões ou relés), preservando o funcionamento original do aparelho.
 
 ## 📚 Índice
-- [Visão Geral](#visão-geral)
+- [Visão Geral](#visao-geral)
 - [Arquitetura e Hardware](#arquitetura-e-hardware)
 - [Software e Firmware](#software-e-firmware)
 - [Checklist e Passo a Passo](CHECKLIST.md)
 - [Guia de Montagem e Configuração](MONTAGEM_E_CONFIGURACAO.md)
 
-## 🎯 Visão Geral
+## <a name="visao-geral"></a>🎯 Visão Geral
 O projeto consiste em pegar um nobreak comum (pequeno porte, em torno de 600 VA, entrada 220V e saída 110V) e embarcar eletrônica inteligente. O objetivo principal é torná-lo capaz de fornecer informações operacionais de telemetria em tempo real, monitorando tanto a rede elétrica externa (AC) quanto seu circuito interno de baterias (DC). Dessa forma, o nobreak se torna um monitor geral para identificar quedas de rede e também um analista de autonomia, estimando quanto tempo de bateria ainda resta durante um blecaute.
 
-## 🏗️ Arquitetura e Hardware
+## <a name="arquitetura-e-hardware"></a>🏗️ Arquitetura e Hardware
 O hardware principal da modificação consistirá em:
 
 - **Microcontrolador (Cérebro):**
@@ -28,7 +28,7 @@ O hardware principal da modificação consistirá em:
 - **Monitoramento Térmico (Interno):**
   Adição do sensor de temperatura e umidade **DHT11**. Apesar de ser um sensor simples, ele é perfeitamente adequado para monitorar o calor dentro da carcaça do nobreak, prevenindo superaquecimento na bateria e no circuito inversor.
 
-## 💻 Software e Firmware
+## <a name="software-e-firmware"></a>💻 Software e Firmware
 O sistema operacional (firmware) escolhido para o ESP32 é o **Tasmota**.
 Isso vai requerer atenção em dois pontos cruciais:
 1. **Compilação Customizada (TasmoCompiler):** A versão padrão (binário genérico) do Tasmota não ativa todos os sensores nativamente para poupar espaço. Ao utilizar o **TasmoCompiler**, atente-se aos seguintes detalhes:
