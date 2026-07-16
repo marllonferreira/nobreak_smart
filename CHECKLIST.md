@@ -28,7 +28,7 @@ Ele será estruturado e detalhado conforme formos alinhando cada parte do projet
 - [ ] Configurar os parâmetros do TasmoCompiler:
   - **Tipo de ESP32:** Generic.
   - **Recursos:** Desmarcar absolutamente tudo, mantendo ativada apenas a **Interface WEB** (e MQTT opcionalmente se for integrar ao Home Assistant).
-  - **Custom Parameters:** Adicionar o código `#define USE_DHT`, `#define USE_INA226` e `#define USE_CSE7766`.
+  - **Custom Parameters:** Adicionar o código `#define USE_DHT`, `#define USE_INA226` e `#define USE_I2C`, `#define USE_CSE7766`.
 - [ ] Flashear o firmware Tasmota customizado no ESP32.
 - [ ] Mapear os pinos de forma segura na tela do Tasmota:
   - Configurar **GPIO 21 (SDA)** e **GPIO 22 (SCL)** para o INA226 (I2C).

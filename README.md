@@ -34,7 +34,7 @@ Isso vai requerer atenção em dois pontos cruciais:
 1. **Compilação Customizada (TasmoCompiler):** A versão padrão (binário genérico) do Tasmota não ativa todos os sensores nativamente para poupar espaço. Ao utilizar o **TasmoCompiler**, atente-se aos seguintes detalhes:
    - Comunicação **MQTT**: Necessária caso queira integrar o nobreak ao Home Assistant (opcional, o Tasmota também opera 100% de forma standalone/independente).
    - Driver do sensor **HLW8032 / CSE7766** (AC): **(Já é nativo)** O Tasmota base já traz suporte padrão a ele (lido sob o driver do chip `CSE7766 Rx`).
-   - **Custom Parameters:** Adicionar o código `#define USE_DHT`, `#define USE_INA226` e `#define USE_CSE7766`.
+   - **Custom Parameters:** Adicionar o código `#define USE_DHT`, `#define USE_INA226` e `#define USE_I2C`, `#define USE_CSE7766`.
 2. **Mapeamento Seguro de Pinos (GPIO):** Como o ESP32 possui pinos sensíveis no boot (strapping pins), definimos a seguinte pinagem segura para evitar falhas de inicialização:
    - **Sensor INA226 (I2C):** **GPIO 21** (SDA) e **GPIO 22** (SCL). Pinos padrão I2C do ESP32, totalmente seguros.
    - **Sensor HLW8032 (UART/Serial):** **GPIO 16** (RX2). O HLW apenas envia dados, e o GPIO 16 é seguro como entrada sem interferir no boot.
