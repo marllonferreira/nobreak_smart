@@ -90,8 +90,8 @@ Após abrir o **TasmoCompiler** (por qualquer uma das opções acima), siga os p
    #ifndef USE_INA226
    #define USE_INA226
    #endif
-   #ifndef USE_INA219
-   #define USE_INA219
+   #ifndef USE_CSE7766
+   #define USE_CSE7766
    #endif
    ```
    *Essas linhas dizem ao compilador para incluir os drivers físicos dos sensores de calor (DHT) e os leitores de bateria (INA226) no chip.*
@@ -157,13 +157,13 @@ O ESP32 opera internamente a 5V/3.3V. Se você ligar a placa direto na bateria d
 2. Conecte o pino **GND** do sensor INA226 ao pino **GND** do ESP32.
 3. Conecte o pino **SDA** do sensor INA226 ao pino **GPIO 21** do ESP32.
 4. Conecte o pino **SCL** do sensor INA226 ao pino **GPIO 22** do ESP32.
-5. Conecte o pino **VBS** (ou **VBUS**) do sensor ao polo **POSITIVO (+12V)** da bateria do nobreak usando um fio fino. *(Isso é necessário para ler a tensão real da bateria, já que o Shunt de 15A estará no polo negativo)*.
-6. Com o resistor R100 removido da plaquinha do INA226, solde os dois fios finos de sinal do Shunt externo de 15A diretamente nos pinos pequenos **IN+** e **IN-** da fileira de baixo da placa. Ignore os furos grandes do topo.
+5. Conecte o pino **VBS** (ou **VBUS**) do sensor ao polo **POSITIVO (+12V)** da bateria do nobreak usando um fio fino. *(Isso é necessário para ler a tensão real da bateria, já que o Shunt externo estará no polo negativo)*.
+6. Com o resistor R100 removido da plaquinha do INA226, solde os dois fios finos de sinal do Shunt externo diretamente nos pinos pequenos **IN+** e **IN-** da fileira de baixo da placa. Ignore os furos grandes do topo.
 
 ### Sensor da Tomada (HLW8032)
-1. Conecte o pino **VCC** do sensor HLW8032 ao pino **5V** (ou VIN) do ESP32.
-2. Conecte o pino **GND** do sensor HLW8032 ao pino **GND** do ESP32.
-3. Conecte o pino **TX** do sensor HLW8032 ao pino **GPIO 16** (RX2) do ESP32.
+- [ ] **Alimentação e Sinal do Módulo AC:**
+  * **Se estiver usando o modelo recomendado com Optoacoplador (v1.1):** Conecte o pino marcado como "5V" do sensor diretamente na saída de **3.3V** do ESP32, e o pino TX direto no pino **GPIO 16** (RX2) do ESP32. Isso faz com que o isolador envie o sinal com nível lógico seguro de 3.3V nativos, eliminando a necessidade de componentes extras.
+  * **Se estiver usando o modelo comum (Sem Optoacoplador):** Conecte o pino VCC do sensor na saída de **5V (ou VIN)** do ESP32. Nesse caso, você **obrigatoriamente** deve montar um divisor de tensão na linha do sinal: coloque um resistor de 1kΩ em série com o pino TX do sensor e um resistor de 2kΩ ligado ao GND. O ponto central entre os dois resistores é o que deve ser ligado no **GPIO 16** do ESP32 para rebaixar o sinal para 3.3V.
 
 ### Sensor de Calor (DHT11)
 ![Sensor DHT11 Real](images/dht11.jpg)
@@ -208,21 +208,25 @@ Para calibrar a rede elétrica da rua, você precisa conectar ao nobreak uma car
    *O Tasmota calculará a calibragem da rede automaticamente com base nesses dois números e guardará na memória.*
 
 ### Calibrando o Sensor de Bateria DC (INA226 com Shunt)
-Como substituímos a pequena resistência padrão da placa do INA por um Shunt de 15A para suportar a corrente alta do nobreak, a conta de corrente dele estará completamente errada na primeira inicialização.
+Como substituímos a pequena resistência padrão da placa do INA por um Shunt externo (para suportar a corrente alta do nobreak), a conta de corrente dele estará completamente errada na primeira inicialização.
 
 Para tornar o nobreak **100% autossuficiente** e evitar que você tenha que alterar códigos internos do Home Assistant (o que poderia quebrar o sistema se digitado incorretamente), nós vamos calibrar a medição **diretamente dentro do Tasmota**.
 
-O nosso Shunt externo é especificado para **75mV / 15A**. Aplicando a Lei de Ohm ($R = V / I$), descobrimos a resistência exata dele:
-$$R = 0,075V / 15A = 0,005\text{ Ohms}$$ (ou 5 mΩ).
+A calibração varia dependendo de qual Shunt externo você escolheu para o projeto. Aplicando a Lei de Ohm ($R = V / I$), descobrimos a resistência exata de cada um:
+
+**Opção 1: Shunt Padrão (15 A / 75 mV)**
+Dimensionado para cargas leves (ex: roteadores e switches). A resistência é $R = 0,075V / 15A = 0,005\text{ Ohms}$.
+* **Comandos de Calibração:** Digite `Sensor54 11 0.005` (define ohms) e pressione Enter. Depois digite `Sensor54 12 15.0` (define amperes máximo) e pressione Enter.
+
+**Opção 2: Shunt de Alta Carga (50 A / 75 mV ou maior)**
+Recomendado se o seu nobreak for alimentar equipamentos mais pesados. A resistência para 50A é $R = 0,075V / 50A = 0,0015\text{ Ohms}$. *(Se usar um shunt maior, aplique a mesma fórmula)*.
+* **Comandos de Calibração:** Digite `Sensor54 11 0.0015` (define ohms) e pressione Enter. Depois digite `Sensor54 12 50.0` (define amperes máximo) e pressione Enter.
 
 Para configurar isso no Tasmota:
 1. Acesse o IP do nobreak pelo navegador.
 2. No menu principal, clique em **Console**.
-3. Na caixa de digitação na parte inferior, digite o seguinte comando e pressione **Enter**:
-   - `Sensor54 1, 5` *(Isso configura a resistência do seu shunt de barra de 15A/75mV, que é de exatamente 5 miliohms)*
-
-> [!NOTE]
-> Se o seu módulo estiver utilizando o driver clássico do INA219 (em vez do INA226), substitua o comando `Sensor54` por `Sensor13` (exemplo: `Sensor13 11 0.005`, `Sensor13 12 15.0` e depois digite `Restart 1` no console para reiniciar).
+3. Na caixa de digitação na parte inferior, digite sequencialmente os **dois comandos correspondentes ao seu Shunt**, apertando **Enter** após cada um.
+4. Digite o comando final `Sensor54 2` e aperte **Enter** para salvar e reiniciar a placa.
 
 #### 🔍 Como essa calibração funciona nos bastidores? (Sem Scripts ou Regras)
 Você pode estar se perguntando: *Como o Tasmota faz esse cálculo sem precisarmos escrever regras complexas ou scripts de código?*
