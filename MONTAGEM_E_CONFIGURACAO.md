@@ -141,12 +141,12 @@ Depois que a placa se conecta na rede da sua casa, ela ganha um novo endereço d
 
 Nós vamos ligar fios de cabo flexível fino (jumpers) saindo dos pinos da placa ESP32 para cada um dos componentes.
 
-### Alimentação Principal (Módulo LM2596)
-O ESP32 opera internamente a 5V/3.3V. Se você ligar a placa direto na bateria do Nobreak (que tem 12V ou 24V), ela vai **queimar instantaneamente em segundos**. O módulo regulador LM2596 serve para baixar e manter a energia estável.
+### Alimentação do Sistema (LM2596)
 
-![Módulo Step-Down LM2596 Real](images/lm2596.jpg)
+> [!WARNING]  
+> **Aviso de Drenagem de Bateria (Uso Esporádico):** Como o circuito é ligado diretamente na bateria, o ESP32 ficará ligado 24 horas por dia (mesmo se o nobreak for desligado no botão frontal). Isso é ideal para equipamentos contínuos como servidores ou roteadores. **Porém**, se você for guardar o nobreak ou usá-lo apenas esporadicamente, o consumo contínuo da placa irá drenar a bateria ao longo de algumas semanas. Nesses casos, recomendamos soldar um pequeno **interruptor (botão liga/desliga)** no fio vermelho entre a bateria e o módulo LM2596 para cortar a energia do sistema smart quando não estiver em uso.
 
-1. Localize a bateria do seu nobreak. 
+1. Antes de ligar qualquer componente, certifique-se de que o nobreak está totalmente desligado e fora da tomada.
 2. Ligue um fio (preferencialmente vermelho) do polo POSITIVO (+) da bateria na entrada **IN+** do módulo LM2596.
 3. Ligue um fio (preferencialmente preto) do polo NEGATIVO (-) da bateria na entrada **IN-** do módulo LM2596.
 4. 🛑 **ETAPA CRÍTICA DE SEGURANÇA:** Não conecte nada no ESP32 ainda. Ligue o nobreak (apenas na bateria). Pegue um multímetro, mude para a escala de Tensão Contínua (DC Volts) e meça as saídas **OUT+** e **OUT-** do LM2596. Pegue uma pequena chave de fenda e gire o pequeno parafuso dourado no topo do bloco azul (potenciômetro) do LM2596. Gire até que a tela do multímetro marque exatamente **5.0 Volts**.

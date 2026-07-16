@@ -19,7 +19,7 @@ O hardware principal da modificação consistirá em:
 - **Microcontrolador (Cérebro):**
   Utilizaremos a placa **ESP32 DevKit V1 (38 pinos)**. Ela lerá os sensores e conectará o sistema ao Wi-Fi.
 - **Alimentação Estabilizada:**
-  Para manter o ESP32 e os sensores ligados, usaremos um módulo Buck Converter **LM2596 DC-DC**. Ele será ligado diretamente nos terminais da bateria do nobreak. Dessa forma, mesmo que a bateria sofra queda de tensão ao descarregar durante o uso, o LM2596 garantirá os 5V/3.3V constantes para o circuito de controle.
+  Para manter o ESP32 e os sensores ligados, usaremos um módulo Buck Converter **LM2596 DC-DC**. Ele será ligado diretamente nos terminais da bateria do nobreak. Dessa forma, mesmo que a bateria sofra queda de tensão ao descarregar durante o uso, o LM2596 garantirá os 5V/3.3V constantes para o circuito de controle. *⚠️ Aviso Importante: Como o módulo ficará ligado direto na bateria, o ESP32 nunca desligará (o que é ideal para servidores/equipamentos 24h). Porém, se o nobreak for armazenado ou tiver uso esporádico, esse consumo contínuo poderá drenar totalmente a bateria ao longo das semanas. Nesses casos, recomendamos a instalação de um interruptor (botão liga/desliga) no fio positivo do LM2596 para cortar a alimentação do circuito smart quando não estiver em uso.*
 
 - **Monitoramento AC (Entrada Externa):** 
   Utilização do sensor **HLW8032** (ou equivalente) para monitorar a rede da concessionária. Ele medirá a presença de energia, a tensão da rede, a corrente e a potência que o nobreak está consumindo da tomada.

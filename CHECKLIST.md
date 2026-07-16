@@ -75,6 +75,7 @@ Ele será estruturado e detalhado conforme formos alinhando cada parte do projet
 
 ### 🔋 Alimentação Principal (Módulo LM2596)
 - [ ] Ligar o **LM2596** nos terminais da bateria e regular a tensão de saída (trimpot) para exatamente **5.0 Volts** com um multímetro antes de conectá-lo ao ESP32.
+  * *⚠️ Atenção (Uso Esporádico):* Como o módulo LM2596 ficará ligado direto na bateria, o sistema smart nunca desligará. Se o seu nobreak não tiver uso 24h/constante, instale um interruptor (botão liga/desliga) no fio de entrada positivo do LM2596 para evitar que a placa drene a bateria por completo ao longo das semanas em que o nobreak estiver parado.
 
 ---
 
